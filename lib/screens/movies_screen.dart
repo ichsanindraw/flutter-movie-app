@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/constants/app_colors.dart';
 import 'package:flutter_movie_app/constants/app_constants.dart';
 import 'package:flutter_movie_app/constants/app_icons.dart';
+import 'package:flutter_movie_app/screens/favorite_screen.dart';
+import 'package:flutter_movie_app/service/init_getit.dart';
+import 'package:flutter_movie_app/service/navigation_service.dart';
 import 'package:flutter_movie_app/widgets/movies/movie_widget.dart';
-import 'package:flutter_movie_app/widgets/unify_image.dart';
 
 class MoviesScreen extends StatelessWidget {
   const MoviesScreen({super.key});
@@ -15,7 +18,10 @@ class MoviesScreen extends StatelessWidget {
         title: const Text("Popular Movies"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              getIt<NavigationService>().navigate(const FavoriteScreen());
+              // getIt<NavigationService>().showDialog(FavoriteScreen());
+            },
             icon: Icon(
               AppIcons.favoriteRounded,
               color: AppColors.redColor,
