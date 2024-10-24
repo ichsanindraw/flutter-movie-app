@@ -53,7 +53,7 @@ class MovieModel {
   final String posterPath;
 
   @JsonKey(name: 'release_date')
-  final DateTime releaseDate;
+  final String releaseDate;
 
   final String title;
   final bool video;
@@ -90,4 +90,4 @@ class MovieModel {
   }
 }
 
-enum OriginalLanguage { en, es, ko }
+enum OriginalLanguage { en, es, ko, ja, xx, tl, id, sv, th }

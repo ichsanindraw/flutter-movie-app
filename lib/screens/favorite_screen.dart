@@ -25,10 +25,11 @@ class FavoriteScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: MovieWidget(imageUrl: AppConstants.imagePlaceholder),
-          );
+          return Text("halo");
+          // return const Padding(
+          //   padding: EdgeInsets.all(8.0),
+          //   child: MovieWidget(data: null),
+          // );
         },
       ),
     );

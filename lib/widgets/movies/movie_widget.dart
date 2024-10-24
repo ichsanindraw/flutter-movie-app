@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/constants/app_colors.dart';
+import 'package:flutter_movie_app/constants/app_constants.dart';
 import 'package:flutter_movie_app/constants/app_icons.dart';
+import 'package:flutter_movie_app/models/movie/movie_model.dart';
 import 'package:flutter_movie_app/screens/movie_detail_screen.dart';
 import 'package:flutter_movie_app/service/init_getit.dart';
 import 'package:flutter_movie_app/service/navigation_service.dart';
@@ -9,12 +11,9 @@ import 'package:flutter_movie_app/widgets/movies/genres_widget.dart';
 import 'package:flutter_movie_app/widgets/unify_image.dart';
 
 class MovieWidget extends StatelessWidget {
-  final String imageUrl;
+  final MovieModel data;
 
-  const MovieWidget({
-    super.key,
-    required this.imageUrl,
-  });
+  const MovieWidget({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class MovieWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
         child: InkWell(
           onTap: () {
-            getIt<NavigationService>().navigate(const MovieDetailScreen());
+            getIt<NavigationService>().navigate(MovieDetailScreen(data: data));
           },
           borderRadius: BorderRadius.circular(12.0),
           child: Padding(
@@ -34,10 +33,13 @@ class MovieWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: UnifyImage(
-                    url: imageUrl,
+                Hero(
+                  tag: data.id,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: UnifyImage(
+                      url: "${AppConstants.imageUrl}/${data.posterPath}",
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -45,15 +47,17 @@ class MovieWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Movie Title",
-                        style: TextStyle(
+                      Text(
+                        data.title,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(
                             AppIcons.star,
@@ -61,10 +65,11 @@ class MovieWidget extends StatelessWidget {
                             size: 20,
                           ),
                           const SizedBox(width: 8),
-                          const Text("8/10")
+                          Text("${data.voteAverage.toStringAsFixed(1)}/10")
                         ],
                       ),
                       const SizedBox(height: 8),
+                      GenresWidget(data: data),
                       Row(
                         children: [
                           Icon(
@@ -74,7 +79,7 @@ class MovieWidget extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "Release Date",
+                            data.releaseDate,
                             style: TextStyle(
                               color: AppColors.greyColor,
                             ),
@@ -83,7 +88,6 @@ class MovieWidget extends StatelessWidget {
                           const FavoriteButton()
                         ],
                       ),
-                      const GenresWidget()
                     ],
                   ),
                 )

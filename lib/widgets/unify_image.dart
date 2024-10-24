@@ -25,6 +25,11 @@ class UnifyImage extends StatelessWidget {
       height: height ?? size.width * 0.3,
       imageUrl: url,
       fit: boxFit ?? BoxFit.cover,
+      placeholder: (context, url) {
+        return const Center(
+          child: CircularProgressIndicator.adaptive(),
+        );
+      },
       errorWidget: (context, url, error) => Icon(
         AppIcons.error,
         color: AppColors.redColor,

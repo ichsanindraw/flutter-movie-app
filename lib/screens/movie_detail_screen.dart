@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/constants/app_colors.dart';
 import 'package:flutter_movie_app/constants/app_constants.dart';
 import 'package:flutter_movie_app/constants/app_icons.dart';
+import 'package:flutter_movie_app/models/movie/movie_model.dart';
 import 'package:flutter_movie_app/widgets/movies/favorite_button.dart';
 import 'package:flutter_movie_app/widgets/movies/genres_widget.dart';
 import 'package:flutter_movie_app/widgets/unify_image.dart';
 
 class MovieDetailScreen extends StatelessWidget {
-  const MovieDetailScreen({super.key});
+  final MovieModel data;
+
+  const MovieDetailScreen({
+    super.key,
+    required this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +24,14 @@ class MovieDetailScreen extends StatelessWidget {
       body: SafeArea(
           child: Stack(
         children: [
-          SizedBox(
-            width: double.infinity,
-            height: size.height * 0.45,
-            child: const UnifyImage(
-              url: AppConstants.imagePlaceholder,
+          Hero(
+            tag: data.id,
+            child: SizedBox(
+              width: double.infinity,
+              height: size.height * 0.45,
+              child: UnifyImage(
+                url: "${AppConstants.imageUrl}/${data.posterPath}",
+              ),
             ),
           ),
           SingleChildScrollView(
@@ -44,16 +53,16 @@ class MovieDetailScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 24),
-                              const Text(
-                                "Movie Title",
+                              Text(
+                                data.title,
                                 maxLines: 2,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              const SizedBox(height: 8),
+                              // const SizedBox(height: 8),
                               Row(
                                 children: [
                                   Icon(
@@ -62,10 +71,11 @@ class MovieDetailScreen extends StatelessWidget {
                                     size: 20,
                                   ),
                                   const SizedBox(width: 8),
-                                  const Text("9/10"),
+                                  Text(
+                                      "${data.voteAverage.toStringAsFixed(1)}/10"),
                                   const Spacer(),
                                   Text(
-                                    "Release Date",
+                                    data.releaseDate,
                                     style: TextStyle(
                                       color: AppColors.greyColor,
                                     ),
@@ -73,10 +83,10 @@ class MovieDetailScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              const GenresWidget(),
+                              GenresWidget(data: data),
                               const SizedBox(height: 16),
                               Text(
-                                "overview" * 200,
+                                data.overview,
                                 textAlign: TextAlign.justify,
                                 style: const TextStyle(
                                   fontSize: 18,
