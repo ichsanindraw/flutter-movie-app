@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie_model.g.dart';
@@ -30,7 +31,7 @@ class MovieListModel {
 }
 
 @JsonSerializable()
-class MovieModel {
+class MovieModel with ChangeNotifier {
   final bool adult;
 
   @JsonKey(name: 'backdrop_path')
@@ -88,6 +89,11 @@ class MovieModel {
   Map<String, dynamic> toJson() {
     return _$MovieModelToJson(this);
   }
+
+  @override
+  String toString() {
+    return "MovieModel(id: $id)";
+  }
 }
 
-enum OriginalLanguage { en, es, ko, ja, xx, tl, id, sv, th }
+enum OriginalLanguage { en, es, ko, ja, xx, tl, id, sv, th, fr }

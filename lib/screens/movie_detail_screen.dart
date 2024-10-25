@@ -6,17 +6,14 @@ import 'package:flutter_movie_app/models/movie/movie_model.dart';
 import 'package:flutter_movie_app/widgets/movies/favorite_button.dart';
 import 'package:flutter_movie_app/widgets/movies/genres_widget.dart';
 import 'package:flutter_movie_app/widgets/unify_image.dart';
+import 'package:provider/provider.dart';
 
 class MovieDetailScreen extends StatelessWidget {
-  final MovieModel data;
-
-  const MovieDetailScreen({
-    super.key,
-    required this.data,
-  });
+  const MovieDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final movieModelProvider = Provider.of<MovieModel>(context);
     // final size = MediaQuery.of(context).size;
     final size = MediaQuery.sizeOf(context);
 
@@ -25,12 +22,13 @@ class MovieDetailScreen extends StatelessWidget {
           child: Stack(
         children: [
           Hero(
-            tag: data.id,
+            tag: movieModelProvider.id,
             child: SizedBox(
               width: double.infinity,
               height: size.height * 0.45,
               child: UnifyImage(
-                url: "${AppConstants.imageUrl}/${data.posterPath}",
+                url:
+                    "${AppConstants.imageUrl}/${movieModelProvider.posterPath}",
               ),
             ),
           ),
@@ -54,7 +52,7 @@ class MovieDetailScreen extends StatelessWidget {
                             children: [
                               const SizedBox(height: 24),
                               Text(
-                                data.title,
+                                movieModelProvider.title,
                                 maxLines: 2,
                                 style: const TextStyle(
                                   fontSize: 28,
@@ -62,7 +60,6 @@ class MovieDetailScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              // const SizedBox(height: 8),
                               Row(
                                 children: [
                                   Icon(
@@ -72,10 +69,10 @@ class MovieDetailScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                      "${data.voteAverage.toStringAsFixed(1)}/10"),
+                                      "${movieModelProvider.voteAverage.toStringAsFixed(1)}/10"),
                                   const Spacer(),
                                   Text(
-                                    data.releaseDate,
+                                    movieModelProvider.releaseDate,
                                     style: TextStyle(
                                       color: AppColors.greyColor,
                                     ),
@@ -83,10 +80,10 @@ class MovieDetailScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              GenresWidget(data: data),
+                              GenresWidget(data: movieModelProvider),
                               const SizedBox(height: 16),
                               Text(
-                                data.overview,
+                                movieModelProvider.overview,
                                 textAlign: TextAlign.justify,
                                 style: const TextStyle(
                                   fontSize: 18,

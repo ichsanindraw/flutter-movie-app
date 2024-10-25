@@ -14,7 +14,8 @@ class GenresWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<GenreModel> genres = GenreUtils.movieGenresName(data.genreIds);
+    List<GenreModel> genres =
+        GenreUtils.movieGenresName(data.genreIds, context);
 
     return Wrap(
       children: List.generate(

@@ -9,14 +9,15 @@ import 'package:flutter_movie_app/service/navigation_service.dart';
 import 'package:flutter_movie_app/widgets/movies/favorite_button.dart';
 import 'package:flutter_movie_app/widgets/movies/genres_widget.dart';
 import 'package:flutter_movie_app/widgets/unify_image.dart';
+import 'package:provider/provider.dart';
 
 class MovieWidget extends StatelessWidget {
-  final MovieModel data;
-
-  const MovieWidget({super.key, required this.data});
+  const MovieWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final movieModelProvider = Provider.of<MovieModel>(context);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -24,7 +25,12 @@ class MovieWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
         child: InkWell(
           onTap: () {
-            getIt<NavigationService>().navigate(MovieDetailScreen(data: data));
+            getIt<NavigationService>().navigate(
+              ChangeNotifierProvider<MovieModel>.value(
+                value: movieModelProvider,
+                child: const MovieDetailScreen(),
+              ),
+            );
           },
           borderRadius: BorderRadius.circular(12.0),
           child: Padding(
@@ -34,11 +40,12 @@ class MovieWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Hero(
-                  tag: data.id,
+                  tag: movieModelProvider.id,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: UnifyImage(
-                      url: "${AppConstants.imageUrl}/${data.posterPath}",
+                      url:
+                          "${AppConstants.imageUrl}/${movieModelProvider.posterPath}",
                     ),
                   ),
                 ),
@@ -48,7 +55,7 @@ class MovieWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        data.title,
+                        movieModelProvider.title,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -65,11 +72,12 @@ class MovieWidget extends StatelessWidget {
                             size: 20,
                           ),
                           const SizedBox(width: 8),
-                          Text("${data.voteAverage.toStringAsFixed(1)}/10")
+                          Text(
+                              "${movieModelProvider.voteAverage.toStringAsFixed(1)}/10")
                         ],
                       ),
                       const SizedBox(height: 8),
-                      GenresWidget(data: data),
+                      GenresWidget(data: movieModelProvider),
                       Row(
                         children: [
                           Icon(
@@ -79,7 +87,7 @@ class MovieWidget extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            data.releaseDate,
+                            movieModelProvider.releaseDate,
                             style: TextStyle(
                               color: AppColors.greyColor,
                             ),

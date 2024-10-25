@@ -1,53 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/repository/movies_repo.dart';
 import 'package:flutter_movie_app/screens/movies_screen.dart';
 import 'package:flutter_movie_app/service/init_getit.dart';
 import 'package:flutter_movie_app/service/navigation_service.dart';
+import 'package:flutter_movie_app/view_models/favorites_provider.dart';
+import 'package:flutter_movie_app/view_models/movie_provider.dart';
 import 'package:flutter_movie_app/widgets/unify_error.dart';
+import 'package:provider/provider.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
+  Future<void> _loadData(BuildContext context) async {
+    // await Future.microtask(() async {
+    //   if (!context.mounted) return;
 
-class _SplashScreenState extends State<SplashScreen> {
-  bool _isLoading = true;
-  String _errorMessage = "";
-  final _movieRepository = getIt<MoviesRepo>();
+    //   await Provider.of<MovieProvider>(context, listen: false).getMovies();
+    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!context.mounted) return;
+      await Provider.of<FavoritesProvider>(context, listen: false)
+          .loadFavorites();
 
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  Future<void> _loadData() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = "";
+      if (!context.mounted) return;
+      await Provider.of<MovieProvider>(context, listen: false).getMovies();
     });
-
-    try {
-      await _movieRepository.getGenres();
-      await getIt<NavigationService>().navigateReplace(const MoviesScreen());
-    } catch (e) {
-      setState(() {
-        _errorMessage = e.toString();
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _isLoading
-          ? const Center(
+      body: FutureBuilder(
+        future: _loadData(context),
+        builder: (builder, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,11 +43,20 @@ class _SplashScreenState extends State<SplashScreen> {
                   Text("Loading..."),
                 ],
               ),
-            )
-          : UnifyError(
-              text: _errorMessage,
+            );
+          } else if (snapshot.hasError) {
+            return UnifyError(
+              text: snapshot.hasError.toString(),
               onTapped: _loadData,
-            ),
+            );
+          } else {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              getIt<NavigationService>().navigateReplace(const MoviesScreen());
+            });
+            return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 }
