@@ -26,7 +26,7 @@ Map<String, dynamic> _$MovieListModelToJson(MovieListModel instance) =>
 
 MovieModel _$MovieModelFromJson(Map<String, dynamic> json) => MovieModel(
       adult: json['adult'] as bool,
-      backdropPath: json['backdrop_path'] as String,
+      backdropPath: json['backdrop_path'] as String?,
       genreIds: (json['genre_ids'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
@@ -73,4 +73,5 @@ const _$OriginalLanguageEnumMap = {
   OriginalLanguage.id: 'id',
   OriginalLanguage.sv: 'sv',
   OriginalLanguage.th: 'th',
+  OriginalLanguage.fr: 'fr',
 };
