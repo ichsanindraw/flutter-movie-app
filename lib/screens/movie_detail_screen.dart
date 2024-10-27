@@ -104,9 +104,9 @@ class MovieDetailScreen extends StatelessWidget {
                           color: Theme.of(context).cardColor,
                           shape: BoxShape.circle,
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(6.0),
-                          child: FavoriteButton(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: FavoriteButton(movieModel: data),
                         ),
                       ),
                     )

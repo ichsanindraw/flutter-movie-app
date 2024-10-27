@@ -90,4 +90,4 @@ class MovieModel {
   }
 }
 
-enum OriginalLanguage { en, es, ko, ja, xx, tl, id, sv, th }
+enum OriginalLanguage { en, es, ko, ja, xx, tl, id, sv, th, fr }

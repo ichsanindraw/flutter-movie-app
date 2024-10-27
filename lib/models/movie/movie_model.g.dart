@@ -73,4 +73,5 @@ const _$OriginalLanguageEnumMap = {
   OriginalLanguage.id: 'id',
   OriginalLanguage.sv: 'sv',
   OriginalLanguage.th: 'th',
+  OriginalLanguage.fr: 'fr',
 };
