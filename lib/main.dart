@@ -6,6 +6,7 @@ import 'package:flutter_movie_app/constants/app_theme.dart';
 import 'package:flutter_movie_app/screens/splash_screen.dart';
 import 'package:flutter_movie_app/service/init_getit.dart';
 import 'package:flutter_movie_app/service/navigation_service.dart';
+import 'package:flutter_movie_app/view_models/favorite/favorite_bloc.dart';
 import 'package:flutter_movie_app/view_models/movie/movie_bloc.dart';
 import 'package:flutter_movie_app/view_models/theme/theme_bloc.dart';
 
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<MovieBloc>(
           create: (context) => getIt<MovieBloc>(),
+        ),
+        BlocProvider<FavoriteBloc>(
+          create: (context) => getIt<FavoriteBloc>()..add(LoadFavorites()),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(

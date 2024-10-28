@@ -50,7 +50,7 @@ class MoviesScreen extends StatelessWidget {
           } else if (state is MovieError) {
             return Center(child: Text(state.message));
           } else {
-            if (state is MovieSuccess || state is MovieLoadMore) {
+            if (state is MovieSuccess) {
               return NotificationListener<ScrollNotification>(
                 onNotification: (notification) {
                   if (notification.metrics.pixels ==

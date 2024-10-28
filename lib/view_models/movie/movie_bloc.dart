@@ -47,7 +47,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     //   return;
     // }
 
-    emit(const MovieLoadMore());
+    emit(MovieLoadMore());
 
     if (currentState is MovieSuccess) {
       try {

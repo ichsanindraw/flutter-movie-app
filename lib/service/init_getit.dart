@@ -1,6 +1,7 @@
 import 'package:flutter_movie_app/repository/movies_repo.dart';
 import 'package:flutter_movie_app/service/navigation_service.dart';
 import 'package:flutter_movie_app/service/network_service.dart';
+import 'package:flutter_movie_app/view_models/favorite/favorite_bloc.dart';
 import 'package:flutter_movie_app/view_models/movie/movie_bloc.dart';
 import 'package:flutter_movie_app/view_models/theme/theme_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -14,4 +15,5 @@ void setupLocator() {
       () => MoviesRepo(getIt<NetworkService>()));
   getIt.registerLazySingleton<ThemeBloc>(() => ThemeBloc());
   getIt.registerLazySingleton<MovieBloc>(() => MovieBloc());
+  getIt.registerLazySingleton<FavoriteBloc>(() => FavoriteBloc());
 }

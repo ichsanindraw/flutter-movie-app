@@ -85,7 +85,7 @@ class MovieWidget extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          const FavoriteButton()
+                          FavoriteButton(movieModel: data)
                         ],
                       ),
                     ],
